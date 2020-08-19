@@ -1,0 +1,50 @@
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Content {
+  background-color: rgba(gray, 0.1);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  flex-grow: 1;
+  margin-left: 0.5rem;
+  position: relative;
+  min-height: 100px;
+
+  &--loading {
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #000;
+      border-radius: 50%;
+      border-bottom-color: transparent;
+      border-top-color: transparent;
+      animation: spin 0.5s linear forwards infinite;
+    }
+  }
+
+  &__list {
+    margin-top: 1rem;
+
+    th {
+      text-align: left;
+    }
+  }
+
+  &__copy {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+  }
+}
