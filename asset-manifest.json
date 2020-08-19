@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/cadastr/static/css/main.df553946.chunk.css",
+    "main.js": "/cadastr/static/js/main.8356b113.chunk.js",
+    "main.js.map": "/cadastr/static/js/main.8356b113.chunk.js.map",
+    "runtime-main.js": "/cadastr/static/js/runtime-main.43f93367.js",
+    "runtime-main.js.map": "/cadastr/static/js/runtime-main.43f93367.js.map",
+    "static/js/2.2343548b.chunk.js": "/cadastr/static/js/2.2343548b.chunk.js",
+    "static/js/2.2343548b.chunk.js.map": "/cadastr/static/js/2.2343548b.chunk.js.map",
+    "index.html": "/cadastr/index.html",
+    "precache-manifest.4214a8103b563bb01e5431e252d5f597.js": "/cadastr/precache-manifest.4214a8103b563bb01e5431e252d5f597.js",
+    "service-worker.js": "/cadastr/service-worker.js",
+    "static/css/main.df553946.chunk.css.map": "/cadastr/static/css/main.df553946.chunk.css.map",
+    "static/js/2.2343548b.chunk.js.LICENSE.txt": "/cadastr/static/js/2.2343548b.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.43f93367.js",
+    "static/js/2.2343548b.chunk.js",
+    "static/css/main.df553946.chunk.css",
+    "static/js/main.8356b113.chunk.js"
+  ]
+}
