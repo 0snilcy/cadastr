@@ -5,6 +5,19 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
   setIsLoading(true);
   evt.preventDefault();
   const formData = new FormData(evt.target);
+  const query = formData.get("query") || {
+    region_code: formData.get("region_code"),
+    raion: formData.get("raion"),
+    settlement: formData.get("settlement"),
+    street: formData.get("street"),
+    house: formData.get("house"),
+    building: formData.get("building"),
+    block: formData.get("block"),
+    flat: formData.get("flat"),
+  };
+
+  setStatus(null);
+  setData(null);
 
   try {
     const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
@@ -14,21 +27,14 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: {
-          region_code: formData.get("region_code"),
-          raion: formData.get("raion"),
-          settlement: formData.get("settlement"),
-          street: formData.get("street"),
-          house: formData.get("house"),
-          building: formData.get("building"),
-          block: formData.get("block"),
-          flat: formData.get("flat"),
-        },
+        query,
         grouped: 0,
       }),
     });
     setStatus([data.status, data.statusText]);
     const resp = await data.json();
+    resp.query = query;
+    resp.date = Date.now();
     console.log(resp);
     setData(resp);
     setIsLoading(false);
@@ -43,7 +49,8 @@ function Aside({ setData, isLoading, setIsLoading }) {
   const [isNumberType, setNumberType] = useState(false);
 
   return (
-    <div className="Aside">
+    <section className="Aside">
+      <h2>Поиск</h2>
       <label>
         По кадастровому номеру
         <input
@@ -133,7 +140,7 @@ function Aside({ setData, isLoading, setIsLoading }) {
           {status && status.join(" ")}
         </footer>
       </form>
-    </div>
+    </section>
   );
 }
 

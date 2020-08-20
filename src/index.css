@@ -16,3 +16,7 @@ code {
 .main {
   display: flex;
 }
+
+.left {
+  width: 430px;
+}

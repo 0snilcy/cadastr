@@ -28,7 +28,8 @@ const Content = ({ data, isLoading }) => {
   // };
 
   return (
-    <div className={`Content ${isLoading ? "Content--loading" : ""}`}>
+    <section className={`Content ${isLoading ? "Content--loading" : ""}`}>
+      <h2>Результат</h2>
       {error && <div>Ошибка {JSON.stringify(data.error)} </div>}
       {data && data.found && (
         <div>
@@ -73,7 +74,7 @@ const Content = ({ data, isLoading }) => {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
