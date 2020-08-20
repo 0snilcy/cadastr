@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/cadastr/static/css/main.df553946.chunk.css",
-    "main.js": "/cadastr/static/js/main.95b25a39.chunk.js",
-    "main.js.map": "/cadastr/static/js/main.95b25a39.chunk.js.map",
+    "main.js": "/cadastr/static/js/main.928098b2.chunk.js",
+    "main.js.map": "/cadastr/static/js/main.928098b2.chunk.js.map",
     "runtime-main.js": "/cadastr/static/js/runtime-main.43f93367.js",
     "runtime-main.js.map": "/cadastr/static/js/runtime-main.43f93367.js.map",
     "static/js/2.2343548b.chunk.js": "/cadastr/static/js/2.2343548b.chunk.js",
     "static/js/2.2343548b.chunk.js.map": "/cadastr/static/js/2.2343548b.chunk.js.map",
     "index.html": "/cadastr/index.html",
-    "precache-manifest.e9f1b90cea3489b02b0d1124622f5a8d.js": "/cadastr/precache-manifest.e9f1b90cea3489b02b0d1124622f5a8d.js",
+    "precache-manifest.7201833b8311cb2c88749f74b08cb369.js": "/cadastr/precache-manifest.7201833b8311cb2c88749f74b08cb369.js",
     "service-worker.js": "/cadastr/service-worker.js",
     "static/css/main.df553946.chunk.css.map": "/cadastr/static/css/main.df553946.chunk.css.map",
     "static/js/2.2343548b.chunk.js.LICENSE.txt": "/cadastr/static/js/2.2343548b.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.43f93367.js",
     "static/js/2.2343548b.chunk.js",
     "static/css/main.df553946.chunk.css",
-    "static/js/main.95b25a39.chunk.js"
+    "static/js/main.928098b2.chunk.js"
   ]
 }
