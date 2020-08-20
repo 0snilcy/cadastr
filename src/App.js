@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Aside from "components/aside";
-import Content from "components/content";
-import History from "components/history";
+import React, { useState } from 'react';
+import Aside from 'components/aside';
+import Content from 'components/content';
+import History from 'components/history';
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -13,7 +13,7 @@ const App = () => {
         <Aside
           setData={setData}
           setIsLoading={setIsLoading}
-          isLoadeng={isLoading}
+          isLoading={isLoading}
         />
         <History data={data} setData={setData} />
       </aside>

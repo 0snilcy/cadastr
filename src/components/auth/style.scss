@@ -1,0 +1,34 @@
+.Auth {
+  background-color: rgba(gray, 0.1);
+  padding: 2rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin: auto;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  form {
+    width: 100%;
+    display: flex;
+  }
+
+  input {
+    line-height: 2;
+    border-radius: 0.125rem;
+    padding: 0.5rem;
+    border: none;
+    width: 100%;
+  }
+
+  button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}

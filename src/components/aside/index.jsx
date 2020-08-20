@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import "./style.scss";
+import React, { useState } from 'react';
+import './style.scss';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: '/api',
+  timeout: 30000,
+});
 
 const setRequest = async (query, setData, setIsLoading, setStatus) => {
   try {
-    const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
-      method: "POST",
-      headers: {
-        Token: "GRGW-EZEB-K7SH-YTSL",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query,
-        grouped: 0,
-      }),
+    const { data, status, statusText } = await api.post('/', {
+      query,
+      grouped: 0,
     });
-
-    setStatus([data.status, data.statusText]);
-    return await data.json();
+    setStatus(`${status} ${statusText}`);
+    return data;
   } catch (err) {
     console.log(err);
+    setStatus(err.message);
     setIsLoading(false);
   }
 };
@@ -27,16 +26,16 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
   setIsLoading(true);
   evt.preventDefault();
   const formData = new FormData(evt.target);
-  const queryText = formData.get("query");
+  const queryText = formData.get('query');
   let query = queryText || {
-    region_code: formData.get("region_code"),
-    raion: formData.get("raion"),
-    settlement: formData.get("settlement"),
-    street: formData.get("street"),
-    house: formData.get("house"),
-    building: formData.get("building"),
-    block: formData.get("block"),
-    flat: formData.get("flat"),
+    region_code: formData.get('region_code'),
+    raion: formData.get('raion'),
+    settlement: formData.get('settlement'),
+    street: formData.get('street'),
+    house: formData.get('house'),
+    building: formData.get('building'),
+    block: formData.get('block'),
+    flat: formData.get('flat'),
   };
 
   setStatus(null);
@@ -44,20 +43,20 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
 
   try {
     if (queryText) {
-      const resp = await setRequest(
+      const data = await setRequest(
         queryText,
         setData,
         setIsLoading,
         setStatus
       );
-      query = resp.objects[0].ADDRESS;
+      console.log(data);
+      query = data.objects[0].ADDRESS;
     }
 
     const resp = await setRequest(query, setData, setIsLoading, setStatus);
-    resp.query = query;
+    resp.query = query.trim();
     resp.date = Date.now();
 
-    console.log(resp);
     setData(resp);
     setIsLoading(false);
   } catch (err) {
@@ -158,8 +157,7 @@ function Aside({ setData, isLoading, setIsLoading }) {
         )}
 
         <footer>
-          <button disabled={isLoading}>Найти</button>{" "}
-          {status && status.join(" ")}
+          <button disabled={isLoading}>Найти</button> {status}
         </footer>
       </form>
     </section>
