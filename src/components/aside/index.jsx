@@ -1,11 +1,34 @@
 import React, { useState } from "react";
 import "./style.scss";
 
+const setRequest = async (query, setData, setIsLoading, setStatus) => {
+  try {
+    const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
+      method: "POST",
+      headers: {
+        Token: "GRGW-EZEB-K7SH-YTSL",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+        grouped: 0,
+      }),
+    });
+
+    setStatus([data.status, data.statusText]);
+    return await data.json();
+  } catch (err) {
+    console.log(err);
+    setIsLoading(false);
+  }
+};
+
 const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
   setIsLoading(true);
   evt.preventDefault();
   const formData = new FormData(evt.target);
-  const query = formData.get("query") || {
+  const queryText = formData.get("query");
+  let query = queryText || {
     region_code: formData.get("region_code"),
     raion: formData.get("raion"),
     settlement: formData.get("settlement"),
@@ -20,21 +43,20 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
   setData(null);
 
   try {
-    const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
-      method: "POST",
-      headers: {
-        Token: "GRGW-EZEB-K7SH-YTSL",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query,
-        grouped: 0,
-      }),
-    });
-    setStatus([data.status, data.statusText]);
-    const resp = await data.json();
+    if (queryText) {
+      const resp = await setRequest(
+        queryText,
+        setData,
+        setIsLoading,
+        setStatus
+      );
+      query = resp.objects[0].ADDRESS;
+    }
+
+    const resp = await setRequest(query, setData, setIsLoading, setStatus);
     resp.query = query;
     resp.date = Date.now();
+
     console.log(resp);
     setData(resp);
     setIsLoading(false);
