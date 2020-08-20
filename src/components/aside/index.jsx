@@ -20,7 +20,7 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
     const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
       method: "POST",
       headers: {
-        "Access-Control-Request-Headers": "Content-Type,Token",
+        "Access-Control-Request-Headers": "Token, Content-Type",
         "Access-Control-Request-Method":
           "GET, PUT, POST, DELETE, HEAD, OPTIONS",
         Token: "GRGW-EZEB-K7SH-YTSL",
