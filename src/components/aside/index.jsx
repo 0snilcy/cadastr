@@ -4,45 +4,32 @@ import "./style.scss";
 const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
   setIsLoading(true);
   evt.preventDefault();
-  const region = new FormData(evt.target).get("region");
-  const city = new FormData(evt.target).get("city");
-  const street = new FormData(evt.target).get("street");
-  const house = new FormData(evt.target).get("house");
-  const flat = new FormData(evt.target).get("flat");
-  console.log(region, city, street, house);
-
-  if (!street || !city || !street || !house) {
-    setIsLoading(false);
-    return;
-  }
+  const formData = new FormData(evt.target);
 
   try {
     const data = await fetch("https://apirosreestr.ru/api/cadaster/search", {
       method: "POST",
       headers: {
-        "Access-Control-Request-Headers":
-          "access-control-allow-headers,access-control-allow-method,content-type,token",
-        "Access-Control-Request-Method": "POST",
         Token: "GRGW-EZEB-K7SH-YTSL",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query: {
-          region_code: region,
-          raion: city,
-          settlement: "",
-          street,
-          house,
-          building: "",
-          block: "",
-          flat,
+          region_code: formData.get("region_code"),
+          raion: formData.get("raion"),
+          settlement: formData.get("settlement"),
+          street: formData.get("street"),
+          house: formData.get("house"),
+          building: formData.get("building"),
+          block: formData.get("block"),
+          flat: formData.get("flat"),
         },
         grouped: 0,
       }),
     });
+    setStatus([data.status, data.statusText]);
     const resp = await data.json();
     console.log(resp);
-    setStatus([data.status, data.statusText]);
     setData(resp);
     setIsLoading(false);
   } catch (err) {
@@ -53,44 +40,94 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
 
 function Aside({ setData, isLoading, setIsLoading }) {
   const [status, setStatus] = useState(null);
+  const [isNumberType, setNumberType] = useState(false);
 
   return (
     <div className="Aside">
+      <label>
+        По кадастровому номеру
+        <input
+          type="checkbox"
+          checked={isNumberType}
+          onChange={(evt) => setNumberType(evt.target.checked)}
+          name="isNumberType"
+        />
+      </label>
       <form
         onSubmit={(evt) =>
           onSubmitHandler(evt, setData, setIsLoading, setStatus)
         }
       >
-        <label>
-          Регион*
-          <input
-            name="region"
-            type="text"
-            placeholder="Регион"
-            defaultValue="57"
-          />
-        </label>
-        <label>
-          Город*
-          <input
-            name="city"
-            type="text"
-            placeholder="Город"
-            defaultValue="Орел"
-          />
-        </label>
-        <label>
-          Улица*
-          <input name="street" type="text" placeholder="Улица" />
-        </label>
-        <label>
-          Дом*
-          <input name="house" type="text" placeholder="Дом" />
-        </label>
-        <label>
-          Квартира
-          <input name="flat" type="text" placeholder="Квартира" />
-        </label>
+        {isNumberType ? (
+          <label>
+            кадастровый номер
+            <input
+              name="query"
+              type="text"
+              required
+              placeholder="кадастровый номер"
+            />
+          </label>
+        ) : (
+          <>
+            <label>
+              номер региона, обязательно
+              <input
+                name="region_code"
+                type="text"
+                required
+                placeholder="номер региона, обязательно"
+                defaultValue="57"
+              />
+            </label>
+            <label>
+              название города или района
+              <input
+                name="raion"
+                type="text"
+                placeholder="название города или района"
+                defaultValue="Орел"
+              />
+            </label>
+            <label>
+              населенный пункт, без типа
+              <input
+                name="settlement"
+                type="text"
+                placeholder="населенный пункт, без типа"
+              />
+            </label>
+            <label>
+              улица, без указания типа
+              <input
+                name="street"
+                type="text"
+                placeholder="улица, без указания типа"
+              />
+            </label>
+            <label>
+              номер дома
+              <input name="house" type="text" placeholder="номер дома" />
+            </label>
+            <label>
+              строение
+              <input name="building" type="text" placeholder="строение" />
+            </label>
+            <label>
+              корпус
+              <input name="block" type="text" placeholder="корпус" />
+            </label>
+            <label>
+              квартира или помещение
+              <input
+                name="flat"
+                type="text"
+                placeholder="квартира или помещение"
+              />
+            </label>
+          </>
+        )}
+
         <footer>
           <button disabled={isLoading}>Найти</button>{" "}
           {status && status.join(" ")}

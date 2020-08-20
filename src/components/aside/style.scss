@@ -7,8 +7,11 @@
   label {
     display: block;
     margin-bottom: 0.5rem;
-    width: 300px;
+    width: 400px;
     display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
   }
 
   input {

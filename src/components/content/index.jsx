@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./style.scss";
 
 const ContentItem = ({ CADNOMER, ADDRESS }) => {
@@ -20,6 +20,7 @@ const copyItems = async (value) => {
 };
 
 const Content = ({ data, isLoading }) => {
+  const table = useRef(null);
   const error = !!data?.error?.length;
   // data = {
   //   found: 77,
@@ -44,9 +45,24 @@ const Content = ({ data, isLoading }) => {
             >
               Копировать кадастровые номера
             </button>
+            <button
+              className="Content__copy"
+              onClick={(evt) => {
+                evt.preventDefault();
+                const selection = document.getSelection();
+                selection.setBaseAndExtent(
+                  table.current,
+                  0,
+                  table.current,
+                  table.current.childNodes.length
+                );
+              }}
+            >
+              Выделить таблицу
+            </button>
           </div>
           <hr />
-          <div className="Content__list">
+          <div className="Content__list" ref={table}>
             <table>
               <tbody>
                 {data.objects.map((item) => (
