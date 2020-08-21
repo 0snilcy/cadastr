@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Aside from 'components/aside';
 import Content from 'components/content';
 import History from 'components/history';
+import { useApi, useData } from 'hooks';
 
 const App = () => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { request, isLoading, status } = useApi();
+  const { data, setData } = useData();
 
   return (
     <main className="main">
       <aside className="left">
         <Aside
-          setData={setData}
-          setIsLoading={setIsLoading}
+          request={request}
           isLoading={isLoading}
+          status={status}
+          setData={setData}
         />
         <History data={data} setData={setData} />
       </aside>

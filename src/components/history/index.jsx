@@ -1,9 +1,9 @@
-import React from "react";
-import "./style.scss";
+import React from 'react';
+import './style.scss';
 
-const KEY = "history";
+const KEY = 'history';
 
-const getQueryFromObject = (obj) =>
+export const getQueryFromObject = (obj) =>
   Object.values(obj)
     .filter((el) => el)
     .join(`, `);
@@ -20,7 +20,7 @@ const loadData = () => {
 
 const saveData = (data) => {
   const loadedData = loadData().filter((item) => {
-    if (typeof data.query === "string") {
+    if (typeof data.query === 'string') {
       return item.query !== data.query;
     }
 
@@ -49,7 +49,7 @@ const History = ({ data, setData }) => {
             title={objects[0].ADDRESS}
             onClick={() => setData(item)}
           >
-            {typeof query === "string" ? query : getQueryFromObject(query)}
+            {typeof query === 'string' ? query : getQueryFromObject(query)}
           </button>
         );
       })}

@@ -1,29 +1,8 @@
 import React, { useState } from 'react';
 import './style.scss';
-import axios from 'axios';
+import { getQueryFromObject } from 'components/history';
 
-const api = axios.create({
-  baseURL: '/api',
-  timeout: 30000,
-});
-
-const setRequest = async (query, setData, setIsLoading, setStatus) => {
-  try {
-    const { data, status, statusText } = await api.post('/', {
-      query,
-      grouped: 0,
-    });
-    setStatus(`${status} ${statusText}`);
-    return data;
-  } catch (err) {
-    console.log(err);
-    setStatus(err.message);
-    setIsLoading(false);
-  }
-};
-
-const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
-  setIsLoading(true);
+const onSubmitHandler = async (evt, request) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
   const queryText = formData.get('query');
@@ -38,35 +17,27 @@ const onSubmitHandler = async (evt, setData, setIsLoading, setStatus) => {
     flat: formData.get('flat'),
   };
 
-  setStatus(null);
-  setData(null);
-
   try {
     if (queryText) {
-      const data = await setRequest(
-        queryText,
-        setData,
-        setIsLoading,
-        setStatus
-      );
+      const data = await request(queryText);
       console.log(data);
       query = data.objects[0].ADDRESS;
     }
 
-    const resp = await setRequest(query, setData, setIsLoading, setStatus);
-    resp.query = query.trim();
+    const resp = await request(query);
+    console.log(resp);
+    resp.query =
+      typeof query === 'string'
+        ? query.trim()
+        : getQueryFromObject(query).trim();
     resp.date = Date.now();
-
-    setData(resp);
-    setIsLoading(false);
+    return resp;
   } catch (err) {
     console.log(err);
-    setIsLoading(false);
   }
 };
 
-function Aside({ setData, isLoading, setIsLoading }) {
-  const [status, setStatus] = useState(null);
+function Aside({ request, isLoading, status, setData }) {
   const [isNumberType, setNumberType] = useState(false);
 
   return (
@@ -82,9 +53,12 @@ function Aside({ setData, isLoading, setIsLoading }) {
         />
       </label>
       <form
-        onSubmit={(evt) =>
-          onSubmitHandler(evt, setData, setIsLoading, setStatus)
-        }
+        onSubmit={async (evt) => {
+          evt.preventDefault();
+          setData(null);
+          const data = await onSubmitHandler(evt, request);
+          setData(data);
+        }}
       >
         {isNumberType ? (
           <label>

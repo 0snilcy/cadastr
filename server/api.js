@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const apiRouter = express.Router();
 const axios = require('axios');
@@ -6,7 +8,7 @@ const api = axios.create({
   baseURL: `https://apirosreestr.ru/api`,
   timeout: 30000,
   headers: {
-    Token: 'GRGW-EZEB-K7SH-YTSL',
+    Token: process.env.TOKEN,
     'Content-Type': 'application/json',
   },
 });

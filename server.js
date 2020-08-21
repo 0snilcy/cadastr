@@ -1,6 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const apiRouter = require('./server/api');
+const isAuthRouter = require('./server/isauth');
+const { authBase, authRouter } = require('./server/auth');
 const morgan = require('morgan');
 
 const args = process.argv
@@ -13,7 +17,7 @@ const args = process.argv
   }, {});
 
 const app = express();
-const PORT = args.port || 1337;
+const PORT = args.port || process.env.DEFAULT_PORT;
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -22,6 +26,8 @@ const staticDir = path.resolve(__dirname, './build');
 app.use(express.static(staticDir));
 
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
+app.use('/isauth', isAuthRouter);
 
 app.use((_, res) => res.sendStatus(404));
 
