@@ -51,6 +51,8 @@ export const useAuth = () => {
         api.defaults.headers.common['Authorization'] = `Bearer ${key}`;
         return key;
       }
+
+      return null;
     } catch (err) {
       console.lerror(err);
     }
